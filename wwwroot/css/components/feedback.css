@@ -1,0 +1,16 @@
+.feedback {
+    margin-top: 1rem;
+    padding: 1rem 1.1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+}
+
+.feedback-success {
+    background: rgba(26, 143, 94, 0.18);
+    border-color: rgba(84, 227, 164, 0.34);
+}
+
+.feedback-error {
+    background: rgba(197, 62, 62, 0.18);
+    border-color: rgba(255, 133, 133, 0.36);
+}

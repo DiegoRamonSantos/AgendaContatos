@@ -1,0 +1,71 @@
+@using AgendaContatos.Models
+@{
+    var categories = ContactCategoryCatalog.All;
+}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Agenda de contatos, desenvovido com Asp.net MVC">
+    <title>@ViewData["Title"] - AgendaContatos</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<body>
+    <div class="app-shell">
+        <header class="site-header">
+            <div class="site-header-inner">
+                <a class="site-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="site-brand-eyebrow">Aplicação web</span>
+                    <span class="site-brand-title">Minha Agenda de Contatos</span>
+                </a>
+
+                <button class="site-menu-toggle" type="button" aria-expanded="false" aria-label="Abrir menu"
+                        data-menu-toggle>
+                    <span class="site-menu-toggle-icon" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>
+
+                <nav class="site-nav" aria-label="Navegação principal">
+                    <a class="site-nav-link" asp-area="" asp-controller="Home" asp-action="Index">🏠 Início</a>
+                    @foreach (var category in categories)
+                    {
+                        <a class="site-nav-link" asp-controller="Contacts" asp-action="Category"
+                               asp-route-categorySlug="@category.Slug">
+                            @category.Icon @category.Name
+                        </a>
+                    }
+                </nav>
+            </div>
+        </header>
+
+        <main class="page-content">
+            @RenderBody()
+        </main>
+
+        <footer class="site-footer">
+            <div class="site-footer-inner">
+                <p>&copy; @DateTime.Now.Year Minha Agenda de Contatos. Organize contatos pessoais e profissionais em um só lugar.</p>
+                    <div class="site-footer-links">
+                        <a asp-area="" asp-controller="Home" asp-action="Index">Página inicial</a>
+                        <a href="https://learn.microsoft.com/aspnet/core" target="_blank" rel="noreferrer">ASP.NET Core</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+
+    </body>
+
+</html>

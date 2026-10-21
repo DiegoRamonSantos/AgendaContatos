@@ -1,0 +1,44 @@
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.site-header-inner,
+.page-content,
+.site-footer-inner {
+    width: min(1180px, calc(100% - 2rem));
+    margin: 0 auto;
+}
+
+.page-content {
+    flex: 1;
+    padding: 2rem 0 3rem;
+}
+
+.section-block {
+    margin-top: 2rem;
+}
+
+.section-block-muted {
+    padding: 1.2rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.section-heading h2 {
+    margin: 0 0 0.4rem;
+}
+
+.section-heading p {
+    color: var(--color-muted);
+}

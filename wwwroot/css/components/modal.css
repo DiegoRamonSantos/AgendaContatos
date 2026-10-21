@@ -1,0 +1,24 @@
+.contact-modal .modal-content {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background:
+        linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03)),
+        #292929;
+    color: var(--color-white);
+    box-shadow: var(--shadow-soft);
+}
+
+.contact-modal .modal-header,
+.contact-modal .modal-footer {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.contact-modal .modal-title {
+    margin: 0.2rem 0 0;
+    font-size: 1.45rem;
+}
+
+.contact-modal .modal-body {
+    display: grid;
+    gap: 1rem;
+}

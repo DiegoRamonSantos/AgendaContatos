@@ -1,0 +1,24 @@
+/* Colors, shadows, and radii shared across the application. */
+:root {
+    --color-dark: #292929;
+    --color-white: #ffffff;
+    --color-accent: #0075f2;
+    --color-family: #e91e63;
+    --color-family-light: #ec407a;
+    --color-family-rgb: 233, 30, 99;
+    --color-work: #2196f3;
+    --color-work-light: #42a5f5;
+    --color-work-rgb: 33, 150, 243;
+    --color-friends: #9c27b0;
+    --color-friends-light: #ab47bc;
+    --color-friends-rgb: 156, 39, 176;
+    --color-others: #ff9800;
+    --color-others-light: #ffb74d;
+    --color-others-rgb: 255, 152, 0;
+    --color-border: rgba(255, 255, 255, 0.12);
+    --color-muted: rgba(246, 246, 246, 0.72);
+    --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.18);
+    --radius-lg: 28px;
+    --radius-md: 20px;
+    --radius-sm: 14px;
+}

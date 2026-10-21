@@ -1,0 +1,93 @@
+.category-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.category-card {
+    display: flex;
+    min-height: 240px;
+    flex-direction: column;
+    gap: 0.9rem;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    border-color: transparent;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.category-card::after {
+    content: "";
+    position: absolute;
+    inset: auto -20% -35% auto;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    filter: blur(4px);
+    opacity: 0.3;
+}
+
+.category-card:hover,
+.category-card:focus-visible {
+    transform: translateY(-8px);
+}
+
+.category-card-icon {
+    display: inline-flex;
+    width: 3.2rem;
+    height: 3.2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    font-size: 1.65rem;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.category-card-cta {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.category-card:hover .category-card-cta {
+    opacity: 1;
+    transform: translateX(4px);
+}
+
+.category-family {
+    --category-color: var(--color-family);
+    --category-color-light: var(--color-family-light);
+    --category-color-rgb: var(--color-family-rgb);
+}
+
+.category-work {
+    --category-color: var(--color-work);
+    --category-color-light: var(--color-work-light);
+    --category-color-rgb: var(--color-work-rgb);
+}
+
+.category-friends {
+    --category-color: var(--color-friends);
+    --category-color-light: var(--color-friends-light);
+    --category-color-rgb: var(--color-friends-rgb);
+}
+
+.category-others {
+    --category-color: var(--color-others);
+    --category-color-light: var(--color-others-light);
+    --category-color-rgb: var(--color-others-rgb);
+}
+
+.category-card:is(.category-family, .category-work, .category-friends, .category-others) {
+    background: linear-gradient(135deg, var(--category-color) 0%, var(--category-color-light) 100%);
+    border-color: rgba(var(--category-color-rgb), 0.3);
+    box-shadow: 0 8px 32px rgba(var(--category-color-rgb), 0.2);
+}
+
+.category-card:is(.category-family, .category-work, .category-friends, .category-others)::after {
+    background: rgba(var(--category-color-rgb), 0.3);
+}
+
+.stat-card:is(.category-family, .category-work, .category-friends, .category-others) {
+    background: linear-gradient(135deg, var(--category-color) 0%, var(--category-color-light) 100%);
+    box-shadow: 0 8px 32px rgba(var(--category-color-rgb), 0.2);
+}

@@ -1,0 +1,216 @@
+@model AgendaContatos.ViewModels.ContactCategoryPageViewModel
+
+@{
+    ViewData["Title"] = $"{Model.CurrentCategory.Name} | Minha Agenda de Contatos";
+    var detailOptions = ContactCategoryCatalog
+        .GetDetailOptions(Model.CurrentCategory.Category)
+        .Select(option => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(option, option))
+        .ToList();
+    var selectedDetail = Model.FormModel.Notes?.Trim();
+    var shouldOpenContactModal = Model.IsEditing || !ViewData.ModelState.IsValid;
+
+    if (!string.IsNullOrWhiteSpace(selectedDetail) && detailOptions.All(option => option.Value != selectedDetail))
+    {
+        detailOptions.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(selectedDetail, selectedDetail));
+    }
+}
+
+<section class="category-hero">
+    <div>
+        <a class="back-link" asp-controller="Home" asp-action="Index">Voltar para a página inicial</a>
+        <span class="eyebrow">Categoria selecionada</span>
+        <h1>@Model.CurrentCategory.Icon @Model.CurrentCategory.Name</h1>
+        <p>@Model.CurrentCategory.Description</p>
+    </div>
+
+    <nav class="category-switcher" aria-label="Trocar categoria">
+        @foreach (var category in Model.Categories)
+        {
+            <a class="category-switcher-link @(category.Slug == Model.CurrentCategory.Slug ? "is-active" : string.Empty)"
+                   asp-controller="Contacts" asp-action="Category" asp-route-categorySlug="@category.Slug">
+                <span>@category.Icon</span>
+                <span>@category.Name</span>
+            </a>
+        }
+    </nav>
+</section>
+
+@if (TempData["FeedbackSuccess"] is string successMessage)
+{
+    <div class="feedback feedback-success" data-auto-dismiss>@successMessage</div>
+}
+
+@if (TempData["FeedbackError"] is string errorMessage)
+{
+    <div class="feedback feedback-error" data-auto-dismiss>@errorMessage</div>
+}
+
+<div class="category-toolbar">
+    @if (Model.IsEditing)
+    {
+        <a class="button button-primary" asp-controller="Contacts" asp-action="Category"
+               asp-route-categorySlug="@Model.CurrentCategory.Slug">
+            Novo Contato
+        </a>
+    }
+    else
+    {
+        <button type="button" class="button button-primary" data-bs-toggle="modal" data-bs-target="#contactFormModal">
+            Novo Contato
+        </button>
+    }
+</div>
+
+<section class="workspace-grid">
+    <article class="panel-card list-panel">
+        <div class="panel-card-header panel-card-header-row">
+            <div>
+                <span class="eyebrow">Listagem</span>
+                <h2>Contatos cadastrados</h2>
+                <p><span data-contact-count>@Model.Contacts.Count</span> contato(s) nesta categoria.</p>
+            </div>
+
+            <label class="search-box" for="contactSearch">
+                <span>Buscar</span>
+                <input id="contactSearch" type="search" class="form-control-custom"
+                       placeholder="Filtrar por nome, telefone ou e-mail" data-contact-search />
+            </label>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="contacts-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>E-mail</th>
+                        <th>Tipo</th>
+                        <th>Categoria</th>
+                        <th class="actions-column">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var contact in Model.Contacts)
+                    {
+                        <tr data-contact-row
+                            data-search="@($"{contact.Name} {contact.Phone} {contact.Email}".ToLowerInvariant())">
+                            <td class="contact-name">@contact.Name</td>
+                            <td>@contact.Phone</td>
+                            <td>@contact.Email</td>
+                            <td>@(string.IsNullOrWhiteSpace(contact.Notes) ? "Sem opção" : contact.Notes)</td>
+                            <td>
+                                <span class="category-badge">@Model.CurrentCategory.Name</span>
+                            </td>
+                            <td class="actions-cell">
+                                <div class="table-actions">
+                                    <a class="button button-small button-ghost" asp-controller="Contacts"
+                                           asp-action="Category" asp-route-categorySlug="@Model.CurrentCategory.Slug"
+                                           asp-route-editId="@contact.Id">
+                                        Editar
+                                    </a>
+
+                                    <form asp-controller="Contacts" asp-action="Delete" asp-route-id="@contact.Id"
+                                          method="post" class="inline-form">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="categorySlug" value="@Model.CurrentCategory.Slug" />
+                                        <button type="submit" name="intent" value="delete"
+                                                class="button button-small button-danger"
+                                                onclick="return confirm('Deseja realmente excluir este contato?');">
+                                            Excluir
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="list-empty @(Model.Contacts.Count > 0 ? "is-hidden" : string.Empty)" data-empty-state>
+            <strong>Nenhum contato cadastrado ainda.</strong>
+            <span>Use o botão Novo Contato para adicionar o primeiro registro desta categoria.</span>
+        </div>
+    </article>
+</section>
+
+<div class="modal fade contact-modal" id="contactFormModal" tabindex="-1" aria-labelledby="contactFormModalLabel"
+     aria-hidden="true" data-open-on-load="@shouldOpenContactModal.ToString().ToLowerInvariant()">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <span class="eyebrow">Cadastro</span>
+                    <h2 class="modal-title" id="contactFormModalLabel">
+                        @(Model.IsEditing ? "Editar contato" : $"Novo contato em {Model.CurrentCategory.Name}")
+                    </h2>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Fechar"></button>
+            </div>
+
+            <form asp-controller="Contacts" asp-action="Save" method="post" class="contact-form" data-contact-form
+                  novalidate>
+                <div class="modal-body">
+                    @Html.AntiForgeryToken()
+                    <input asp-for="FormModel.Id" type="hidden" />
+                    <input asp-for="FormModel.CategorySlug" type="hidden" />
+
+                    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+                    <div class="form-field">
+                        <label asp-for="FormModel.Name">Nome</label>
+                        <input asp-for="FormModel.Name" class="form-control-custom" placeholder="Ex.: Maria Souza" />
+                        <span asp-validation-for="FormModel.Name" class="field-error"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <label asp-for="FormModel.Phone">Telefone</label>
+                        <input asp-for="FormModel.Phone" class="form-control-custom" placeholder="Ex.: (11) 99999-9999"
+                               inputmode="tel" autocomplete="tel" data-phone-input />
+                        <span asp-validation-for="FormModel.Phone" class="field-error"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <label asp-for="FormModel.Email">E-mail</label>
+                        <input asp-for="FormModel.Email" class="form-control-custom"
+                               placeholder="Ex.: contato@email.com" autocomplete="email" data-email-input />
+                        <span asp-validation-for="FormModel.Email" class="field-error"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <label asp-for="FormModel.Notes">Selecionar uma opção</label>
+                        <select asp-for="FormModel.Notes" asp-items="detailOptions" class="form-control-custom">
+                            <option value="">Selecionar uma opção</option>
+                        </select>
+                        <span asp-validation-for="FormModel.Notes" class="field-error"></span>
+                    </div>
+                </div>
+
+                <div class="modal-footer form-actions">
+                    @if (Model.IsEditing)
+                    {
+                        <a class="button button-ghost" asp-controller="Contacts" asp-action="Category"
+                               asp-route-categorySlug="@Model.CurrentCategory.Slug">
+                            Cancelar edição
+                        </a>
+                    }
+                    else
+                    {
+                        <button type="button" class="button button-ghost" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+                    }
+
+                    <button type="submit" class="button button-primary">
+                        @(Model.IsEditing ? "Salvar alterações" : "Salvar contato")
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

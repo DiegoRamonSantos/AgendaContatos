@@ -1,0 +1,29 @@
+.site-footer {
+    padding: 0 0 1.5rem;
+}
+
+.site-footer-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.3rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.site-footer-inner p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.76);
+}
+
+.site-footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.site-footer-links a:hover,
+.site-footer-links a:focus-visible {
+    color: #84bfff;
+}

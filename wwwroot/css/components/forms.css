@@ -1,0 +1,55 @@
+.contact-form {
+    display: grid;
+    gap: 1rem;
+}
+
+.form-field {
+    display: grid;
+    gap: 0.45rem;
+}
+
+.form-field label,
+.search-box span {
+    font-weight: 600;
+}
+
+.form-control-custom {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--color-white);
+    outline: none;
+    color-scheme: dark;
+}
+
+.form-control-custom::placeholder {
+    color: rgba(255, 255, 255, 0.48);
+}
+
+.form-control-custom:focus {
+    border-color: rgba(0, 117, 242, 0.6);
+    box-shadow: 0 0 0 0.2rem rgba(0, 117, 242, 0.15);
+}
+
+.form-control-custom.is-invalid {
+    border-color: rgba(255, 133, 133, 0.8);
+}
+
+.form-control-custom > option {
+    background: var(--color-dark);
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-top: 0.25rem;
+}
+
+.validation-summary,
+.field-error {
+    color: #ff9d9d;
+    font-size: 0.92rem;
+}

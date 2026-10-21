@@ -1,0 +1,68 @@
+@using AgendaContatos.ViewModels
+
+@model HomePageViewModel
+
+@{
+    ViewData["Title"] = "Minha Agenda de Contatos";
+}
+
+<section class="hero-panel">
+    <div class="hero-panel-content">
+        <span class="eyebrow">Organize seus contatos</span>
+        <h1>Bem-vindo à sua Agenda</h1>
+        <p>
+            Escolha uma categoria para cadastrar, consultar e manter seus contatos sempre organizados
+            com uma navegação leve, busca instantânea e persistência em banco de dados.
+        </p>
+    </div>
+</section>
+
+<section class="section-block">
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">Suas Categorias</span>
+            <h2>Escolha onde deseja gerenciar seus contatos</h2>
+        </div>
+    </div>
+
+    <div class="category-grid">
+        @foreach (var category in Model.Categories)
+        {
+            <a class="category-card @category.ColorClass" asp-controller="Contacts" asp-action="Category" asp-route-categorySlug="@category.Slug">
+                <span class="category-card-icon">@Html.Raw(category.Icon)</span>
+                <h3>@category.Name</h3>
+                <p>@category.Description</p>
+                <span class="category-card-cta">Ver contatos</span>
+            </a>
+        }
+    </div>
+</section>
+
+<section class="section-block">
+    <div class="stats-grid">
+        @foreach (var category in Model.Categories)
+        {
+            <div class="stat-card @category.ColorClass">
+                <div class="stat-card-number">@category.ContactCount</div>
+                <div class="stat-card-label">@category.Name</div>
+            </div>
+        }
+    </div>
+</section>
+
+<section class="section-block section-block-muted">
+    <div class="feature-grid">
+        <article class="feature-card">
+            <h3>Cadastro objetivo</h3>
+            <p>Formulários enxutos com nome, telefone, e-mail e observações para agilizar o dia a dia.</p>
+        </article>
+        <article class="feature-card">
+            <h3>Atualização contínua</h3>
+            <p>Edite ou exclua contatos a qualquer momento com feedback visual claro após cada ação.</p>
+        </article>
+        <article class="feature-card">
+            <h3>Experiência responsiva</h3>
+            <p>Interface preparada para funcionar bem em desktop e mobile, sem perder legibilidade.</p>
+        </article>
+    </div>
+</section>

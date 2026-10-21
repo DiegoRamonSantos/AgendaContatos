@@ -1,0 +1,35 @@
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(16px);
+    background: rgba(41, 41, 41, 0.82);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.site-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: 1rem 0;
+}
+
+.site-brand {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.site-brand-eyebrow,
+.eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.site-brand-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+}

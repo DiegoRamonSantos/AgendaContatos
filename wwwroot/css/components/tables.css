@@ -1,0 +1,56 @@
+.table-wrapper {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    max-height: min(68vh, 680px);
+    margin: 0 auto;
+    overflow-x: auto;
+    overflow-y: auto;
+    border-radius: 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.contacts-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 860px;
+    color: var(--color-white);
+}
+
+.contacts-table th,
+.contacts-table td {
+    padding: 1rem 0.95rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    vertical-align: top;
+}
+
+.contacts-table th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.72);
+    background: rgba(31, 31, 31, 0.98);
+}
+
+.contact-name {
+    font-weight: 700;
+}
+
+.actions-column,
+.actions-cell {
+    white-space: nowrap;
+}
+
+.table-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+}
+
+.inline-form {
+    display: inline-flex;
+}
